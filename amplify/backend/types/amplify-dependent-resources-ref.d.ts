@@ -1,4 +1,11 @@
 export type AmplifyDependentResourcesAttributes = {
+  "api": {
+    "amplifyreact": {
+      "GraphQLAPIEndpointOutput": "string",
+      "GraphQLAPIIdOutput": "string",
+      "GraphQLAPIKeyOutput": "string"
+    }
+  },
   "auth": {
     "amplifyreact71a63272": {
       "AppClientID": "string",
@@ -8,6 +15,12 @@ export type AmplifyDependentResourcesAttributes = {
       "UserPoolArn": "string",
       "UserPoolId": "string",
       "UserPoolName": "string"
+    }
+  },
+  "storage": {
+    "Storage": {
+      "BucketName": "string",
+      "Region": "string"
     }
   }
 }
