@@ -7,7 +7,8 @@ export const getNote = /* GraphQL */ `
       id
       name
       description
-      image
+      date
+      status
       createdAt
       updatedAt
       __typename
@@ -25,7 +26,8 @@ export const listNotes = /* GraphQL */ `
         id
         name
         description
-        image
+        date
+        status
         createdAt
         updatedAt
         __typename
