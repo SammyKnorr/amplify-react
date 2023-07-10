@@ -44,7 +44,7 @@ const App = ({ signOut }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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', 
+          'Authorization': 'Bearer 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', 
         },
         body: JSON.stringify({
           "model": "gpt-3.5-turbo",
