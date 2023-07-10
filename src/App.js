@@ -18,13 +18,57 @@ import {
   deleteNote as deleteNoteMutation,
 } from "./graphql/mutations";
 import Table from 'react-bootstrap/Table';
+import { Configuration, OpenAIApi } from "openai";
 
 const App = ({ signOut }) => {
   const [notes, setNotes] = useState([]);
+  const [message, setMessage] = useState('');
+  const [response, setResponse] = useState('');
+  const key = process.env.REACT_APP_SECRET_API_KEY;
 
   useEffect(() => {
     fetchNotes();
   }, []);
+    
+  const sendMessage = async () => {
+    document.getElementById('chatResponse').textContent = "Typing";
+    
+    var text = "I am applying as a Software Engineer intern for Summer of 2024,"
+    + "what companies do you recommend I look at? I have already applied to these companies: ";
+    {notes.map((note, index) => (
+      text += note.name
+    ))}
+    setMessage(text);
+    try {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer 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', 
+        },
+        body: JSON.stringify({
+          "model": "gpt-3.5-turbo",
+          "messages": [
+            {"role": "system", "content": "You are helping me find new software intern opportunities for the summer of 2024."}, 
+            {"role": "user", "content": text}
+          ]
+        })  
+      });
+
+      const data = await response.json();
+      setResponse(data.choices[0].message['content']);
+      document.getElementById('chatResponse').textContent = data.choices[0].message['content'];
+      
+    } catch (error) {
+      if (error.message == '429') {
+        // If a rate limit error occurred, wait 1 second before retrying
+        setTimeout(sendMessage, 1000);
+      } else {
+          console.error('Error:', error);
+          document.getElementById('chatResponse').textContent = "Error connecting to OpenAI";
+      }
+    }
+  };
 
   async function fetchNotes() {
     try{
@@ -124,6 +168,9 @@ const App = ({ signOut }) => {
           <div>
               <ExportReactCSV csvData={notes} fileName="Applications" />
           </div>
+          <Button variation="link" onClick={sendMessage}>
+            ChatGPT Job Recommendations
+          </Button>
         </Flex>
       </View>
       <Heading level={2}>Current Applications</Heading>
@@ -144,6 +191,9 @@ const App = ({ signOut }) => {
           ))}
         
       </Table>
+      <div className="chatResponse" id = "chatResponse">
+        Chat Bot Response
+      </div>
       <Button onClick={signOut}>Sign Out</Button>
     </View>
   );
