@@ -32,7 +32,7 @@ const App = ({ signOut }) => {
     
   const sendMessage = async () => {
     document.getElementById('chatResponse').textContent = "Typing";
-    
+    console.log(key)
     var text = "I am applying as a Software Engineer intern for Summer of 2024,"
     + "what companies do you recommend I look at? I have already applied to these companies: ";
     {notes.map((note, index) => (
@@ -44,7 +44,7 @@ const App = ({ signOut }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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', 
+          'Authorization': 'Bearer ' + key, 
         },
         body: JSON.stringify({
           "model": "gpt-3.5-turbo",

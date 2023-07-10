@@ -45,3 +45,5 @@ amplifytools.xcconfig
 #amplify-do-not-edit-
 
 # api keys
+.env
+.env
